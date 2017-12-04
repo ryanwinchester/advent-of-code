@@ -14,7 +14,7 @@ defmodule Day03 do
       18   5   4   3  12
       19   6   1   2  11
       20   7   8   9  10
-      21  22  23---> ...
+      21  22  23  24  -> ...
 
   While this is very space-efficient (no squares are skipped), requested data
   must be carried back to square 1 (the location of the only access port for
@@ -33,9 +33,33 @@ defmodule Day03 do
   your puzzle input all the way to the access port?
   """
 
-  def solve() do
+  def steps_from(x) do
+    matrix = get_n(x) |> build_matrix()
+    {x0, y0} = Map.get(matrix, 1)
+    {x, y} = Map.get(matrix, x)
+    abs(x - x0) + abs(y - y0)
   end
+
+  defp get_n(x) do
+    sqrt = :math.sqrt(x) |> Float.ceil() |> trunc()
+    if rem(sqrt, 2) == 0, do: sqrt + 1, else: sqrt
+  end
+
+  defp build_matrix(n) do
+    for i <- 0..(n-1), j <- 0..(n-1), into: %{} do
+      x = min(min(i, j), min(n-1-i, n-1-j))
+      {cell(n, x, i, j), {i, j}}
+    end
+  end
+
+  defp cell(n, x, i, j) when i <= j, do: (n-2*x)*(n-2*x) - (i-x) - (j-x)
+
+  defp cell(n, x, i, j), do: (n-2*x-2)*(n-2*x-2) + (i-x) + (j-x)
 end
 
 
 ## Test
+IO.puts Day03.steps_from(1) == 0
+IO.puts Day03.steps_from(12) == 3
+IO.puts Day03.steps_from(23) == 2
+IO.puts Day03.steps_from(1024) == 31
