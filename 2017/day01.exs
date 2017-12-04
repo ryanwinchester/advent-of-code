@@ -1,4 +1,4 @@
-defmodule Day1 do
+defmodule Day01 do
   @moduledoc """
   --- Day 1: Inverse Captcha ---
 
@@ -58,7 +58,10 @@ defmodule Day1 do
   end
 end
 
-IO.puts Day1.seq_sum(1122) == 3
-IO.puts Day1.seq_sum(1111) == 4
-IO.puts Day1.seq_sum(1234) == 0
-IO.puts Day1.seq_sum(91212129) == 9
+
+## Test
+
+IO.puts Day01.seq_sum(1122) == 3
+IO.puts Day01.seq_sum(1111) == 4
+IO.puts Day01.seq_sum(1234) == 0
+IO.puts Day01.seq_sum(91212129) == 9

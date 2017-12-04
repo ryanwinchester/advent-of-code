@@ -1,4 +1,4 @@
-defmodule Day3 do
+defmodule Day03 do
   @moduledoc """
   --- Day 3: Spiral Memory ---
 
@@ -36,3 +36,6 @@ defmodule Day3 do
   def solve() do
   end
 end
+
+
+## Test

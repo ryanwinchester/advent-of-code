@@ -1,4 +1,4 @@
-defmodule Day2 do
+defmodule Day02 do
   @moduledoc """
   --- Day 2: Corruption Checksum ---
 
@@ -42,9 +42,11 @@ defmodule Day2 do
 end
 
 
+## Test
+
 test_sheet =
 "5 1 9 5
 7 5 3
 2 4 6 8"
 
-IO.puts Day2.checksum(test_sheet) == 18
+IO.puts Day02.checksum(test_sheet) == 18
