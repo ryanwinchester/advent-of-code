@@ -44,9 +44,4 @@ end
 
 ## Test
 
-test_sheet =
-"5 1 9 5
-7 5 3
-2 4 6 8"
-
-IO.puts Day02.checksum(test_sheet) == 18
+IO.puts Day02.checksum("5 1 9 5\n7 5 3\n2 4 6 8") == 18

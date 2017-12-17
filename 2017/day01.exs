@@ -1,7 +1,9 @@
 defmodule Day01 do
   @moduledoc """
   --- Day 1: Inverse Captcha ---
+  """
 
+  @doc """
   The night before Christmas, one of Santa's Elves calls you in a panic.
   "The printer's broken! We can't print the Naughty or Nice List!" By the time
   you make it to sub-basement 17, there are only a few minutes until midnight.
@@ -41,27 +43,70 @@ defmodule Day01 do
         the last digit, 9.
 
   """
-
-  def seq_sum(seq) when is_integer(seq), do: Integer.digits(seq) |> seq_sum()
-
-  def seq_sum(seq) when is_list(seq) do
-    Enum.with_index(seq) |> Enum.reduce(0, &sum(&1, &2, seq))
+  def part1(seq) when is_integer(seq), do: Integer.digits(seq) |> part1()
+  def part1(seq) when is_list(seq) do
+    Enum.with_index(seq) |> Enum.reduce(0, &add_next(&1, &2, seq))
   end
 
-  defp sum({val, key}, acc, seq) do
-    i = get_next_index(key, seq)
+  defp add_next({val, key}, acc, seq) do
+    i = get_next_index(key, length(seq))
     if val == Enum.at(seq, i), do: acc + val, else: acc
   end
 
-  defp get_next_index(key, seq) do
-    if key == length(seq) - 1, do: 0, else: key + 1
+  defp get_next_index(key, len) do
+    if key == len - 1, do: 0, else: key + 1
+  end
+
+  @doc """
+  You notice a progress bar that jumps to 50% completion. Apparently, the door
+  isn't yet satisfied, but it did emit a star as encouragement. The instructions
+  change:
+
+  Now, instead of considering the next digit, it wants you to consider the digit
+  halfway around the circular list. That is, if your list contains 10 items,
+  only include a digit in your sum if the digit 10/2 = 5 steps forward matches
+  it. Fortunately, your list has an even number of elements.
+
+  ## For example:
+
+      - 1212 produces 6: the list contains 4 items, and all four digits match the
+        digit 2 items ahead.
+      - 1221 produces 0, because every comparison is between a 1 and a 2.
+      - 123425 produces 4, because both 2s match each other, but no other digit
+        has a match.
+      - 123123 produces 12.
+      - 12131415 produces 4.
+
+  """
+  def part2(seq) when is_integer(seq), do: Integer.digits(seq) |> part2()
+  def part2(seq) when is_list(seq) do
+    nth = Enum.count(seq) |> div(2)
+    Enum.with_index(seq) |> Enum.reduce(0, &add_nth(&1, &2, seq, nth))
+  end
+
+  def add_nth({val, key}, acc, seq, nth) do
+    i = get_next_nth_index(key, nth)
+    if val == Enum.at(seq, i), do: acc + val, else: acc
+  end
+
+  defp get_next_nth_index(key, nth) do
+    diff = key - nth
+    if diff >= 0, do: diff, else: key + nth
   end
 end
 
 
-## Test
+## Test - Part 1
+IO.puts("--- part 1 ---")
+IO.puts Day01.part1(1122) == 3
+IO.puts Day01.part1(1111) == 4
+IO.puts Day01.part1(1234) == 0
+IO.puts Day01.part1(91212129) == 9
 
-IO.puts Day01.seq_sum(1122) == 3
-IO.puts Day01.seq_sum(1111) == 4
-IO.puts Day01.seq_sum(1234) == 0
-IO.puts Day01.seq_sum(91212129) == 9
+## Test - Part 2
+IO.puts("--- part 2 ---")
+IO.inspect Day01.part2(1212) == 6
+IO.inspect Day01.part2(1221) == 0
+IO.inspect Day01.part2(123425) == 4
+IO.inspect Day01.part2(123123) == 12
+IO.inspect Day01.part2(12131415) == 4

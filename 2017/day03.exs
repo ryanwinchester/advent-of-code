@@ -59,6 +59,7 @@ end
 
 
 ## Test
+
 IO.puts Day03.steps_from(1) == 0
 IO.puts Day03.steps_from(12) == 3
 IO.puts Day03.steps_from(23) == 2
